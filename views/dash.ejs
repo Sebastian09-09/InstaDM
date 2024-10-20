@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="instadm.png">
+    <title>InstaDM Dashboard</title>
+</head>
+<body>
+
+    <div id="cont">
+        <div id="head">
+            <h1><%= heading %></h1>
+            <h2>Logged in as : @<span id="loginUsername"><%= loginUsername %></span></h2>
+        </div>
+
+        <div id="body">
+            <span style="border-top: 2px solid var(--secondary);border-left: 2px solid var(--secondary);border-right: 2px solid var(--secondary);display: block;padding: 5px;background-color: var(--main); border-top-left-radius: 5px; border-top-right-radius: 10px;">
+                <span><div id="min" onclick="toggleConsole();"></div></span>
+                <span id="eventLog">
+                    Event Log | Count <%= count %>
+                </span>
+
+            </span>
+            <div id="console">
+                <span id="log-here"></span>
+                >>>
+            </div>
+        </div>
+
+        <div id="lower">
+
+            <div id="dm-message-container">
+                <textarea id="dm-message1" name="dm-message" style="border-top-left-radius: 5px; border-bottom-left-radius: 5px;" class="dm-message-active dm-message" onclick="activateDMMessage(this)" onchange="updateDmMessage(this,0);"><%= message[0] %></textarea>
+                <textarea id="dm-message2" name="dm-message" class="dm-message" onclick="activateDMMessage(this)" onchange="updateDmMessage(this,1);"><%= message[1] %></textarea>
+                <textarea id="dm-message3" name="dm-message" class="dm-message" onclick="activateDMMessage(this)" onchange="updateDmMessage(this,2);"><%= message[2] %></textarea>
+                <textarea id="dm-message4" name="dm-message" class="dm-message" onclick="activateDMMessage(this)" onchange="updateDmMessage(this,3);"><%= message[3] %></textarea>
+                <textarea id="dm-message5" name="dm-message" style="border-top-right-radius: 5px; border-bottom-right-radius: 5px;" class="dm-message" onclick="activateDMMessage(this)" onchange="updateDmMessage(this,4);"><%= message[4] %></textarea>
+            </div>
+
+            <div>
+                <input id="target-username" type="text" placeholder="Target username" value="<%= targetUsername %>" onchange="updateTargetUsername();" >
+                <input id="limit" min="0"  type="number" placeholder="Limit" value="<%= limit %>" onchange="updateLimit();">
+                <button id="resetCountbtn" onclick="resetCount();">Reset Count</button>
+                <select id="target-friendship" onchange="updateTargetFriendship();">                        
+                    <% if(targetFriendship == 'followers'){ %>
+                        <option selected value="followers">Followers</option>
+                        <option value="following">Following</option>
+                      <% } else{ %>  
+                        <option value="followers">Followers</option>
+                        <option selected value="following">Following</option>
+                     <% } %>                     
+                </select>
+            </div>
+            <div>
+                <% if(pvt == true){ %>
+                    <input id="pvt" type="checkbox" onchange="updatePvt();" checked > <span style="font-size: 16px; opacity: 1;">DM Private Accounts</span>
+                  <% } else{ %>  
+                    <input id="pvt" type="checkbox" onchange="updatePvt();" > <span style="font-size: 16px; opacity: 1;">DM Private Accounts</span>
+                 <% } %>   
+            </div>
+            <div>
+                <input id="delay" min="0" type="number" placeholder="Delay" value="<%= delay %>" onchange="updateDelay();">
+            </div>
+            <div>
+                <button id="loginInstagrambtn" onclick="loginInstagram();">Login</button>
+                <button id="testInstagrambtn" onclick="testInstagram();">Test</button>
+                <button id="startInstagrambtn" onclick="startInstagram();">Start</button>
+                <button id="logoutInstagrambtn" onclick="logoutInstagram();">Stop / Logout</button>
+            </div>
+            <div>
+                <button onclick="clearCookiesInstagram();">Clear Cookies</button>
+                <button onclick="clearExhaustedInstagram();">Clear Exhausted</button>
+                <button id="captureScreenInstagrambtn" style="display: none;">Capture Screen</button>
+            </div>
+        </div>
+
+        <div id="acc-set">
+            <div id="add">
+                <h1>Add Account</h1>
+                <form >
+                    <input type="text" id="add-username" placeholder="username">
+                    <input type="text" id="add-password" placeholder="password">
+                </form>
+                <button class="form-btn" onclick="addAccount();">Add</button>
+            </div>
+
+            <div id="change">
+                <h1>Edit Account</h1>
+                <form action="/change" method="POST" >
+                    <select name="username" id="select-username" onchange="loadPassword();">
+                        <option id="select-username-default" selected>Select an Account</option>
+                        <% accounts.forEach(item => { %>
+                            <option value="<%= item %>" id="<%= item %>"><%= item %></option>
+                        <% }); %>
+                    </select>
+                    <input onkeydown="loadEdit();" id="select-password" type="text" placeholder="password">
+                </form>
+                <button onclick="editAccount();" class="form-btn" id="select-submit">Delete</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const eventSource = new EventSource(`http://${document.domain}:3000/listen`)
+        function updateMessage (message) {
+            if(message.split('|')[0].trim() == 'log'){
+                const logHere = document.getElementById('log-here').innerHTML += `<span style="display: block;">>>> <span class="${message.split('|')[2].trim()}">${message.split('|')[1].trim()}</span></span>`;
+                const logs = document.getElementById('console');
+                logs.scrollTo(0, logs.scrollHeight);
+                
+            }else if(message.split('|')[0].trim() == 'disabled'){
+                let bool;
+                if (message.split('|')[2].trim() == 'true'){
+                    bool = true;
+                }else{
+                    bool = false;
+                }
+                const _Instagrambtn = document.getElementById(`${message.split('|')[1].trim()}`).disabled = bool;
+            }else if (message.split('|')[0].trim() == 'head'){
+                document.getElementById('loginUsername').innerHTML = `${message.split('|')[1].trim()}`;
+            }else if (message.split('|')[0].trim() == 'count'){
+                document.getElementById('eventLog').innerHTML = `Event Log | Count ${message.split('|')[1].trim()}`;
+            }
+        }
+        eventSource.onmessage = function (event) {
+            updateMessage(event.data)
+        }
+        eventSource.onerror = function (){
+            eventSource.close()
+        };
+
+        if (<%= configBrowser %>){
+            document.getElementById('loginInstagrambtn').disabled = true;
+        }else{
+            document.getElementById('logoutInstagrambtn').disabled = true;
+            //document.getElementById('captureScreenInstagrambtn').disabled = true;
+            document.getElementById('testInstagrambtn').disabled = true;
+            document.getElementById('startInstagrambtn').disabled = true;
+        }
+
+        if (<%= running %>){
+            document.getElementById('testInstagrambtn').disabled = true;
+            document.getElementById('startInstagrambtn').disabled = true;
+            document.getElementById('dm-message1').disabled = true;
+            document.getElementById('dm-message2').disabled = true;
+            document.getElementById('dm-message3').disabled = true;
+            document.getElementById('dm-message4').disabled = true;
+            document.getElementById('dm-message5').disabled = true;
+            document.getElementById('target-username').disabled = true;
+            document.getElementById('limit').disabled = true;
+            document.getElementById('target-friendship').disabled = true;
+        }
+        console.log();
+    </script>
+    <script src="index.js"></script>
+</body>
+</html>

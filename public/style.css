@@ -1,0 +1,243 @@
+:root{
+    --main: #1c1c1c;
+    --secondary: #292929;
+    --accent: #57c8ff;
+    --disabled: #919191;
+}
+
+::-webkit-scrollbar {
+    width: 2px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 2px var(--main); 
+  }
+   
+  ::-webkit-scrollbar-thumb {
+    background: var(--secondary); 
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--accent); 
+  }
+
+body{
+    background-color: #1c1c1c;
+    color: rgb(255,255,255);
+    font-family: monospace;
+}
+
+@media screen and (max-width: 900px) {
+    #cont{
+        width: 100% !important;
+    }    
+    #acc-set h1{
+        font-size: 1rem !important;
+    }
+    #acc-set{
+        flex-wrap: wrap !important;
+    }
+    #add{
+        width: 100% !important;
+    }
+    #change{
+        width: 100% !important;
+    }
+}
+
+
+#cont{
+    width: 900px;
+    margin: 0px auto;
+    /*border: 2px solid var(--accent);*/
+}
+
+#head{
+    padding: 10px;
+}
+
+#head h1{
+    font-size: 3rem;
+    margin: 0px;
+}
+
+#head h2{
+    font-size: 1rem;
+    margin-top: 0px;
+}
+
+#acc-set{
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 10px;
+}
+
+#add{
+    width: 50%;
+}
+
+#change{
+    width: 50%;
+}
+
+input[type="text"] , input[type="number"], select{
+    background-color: var(--secondary);
+    border: none;
+    font-size: 1rem;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+input[type="text"]:focus-visible, input[type="number"]:focus-visible, select:focus-visible{
+    outline: none;
+    box-shadow: inset 0px -2px var(--accent);
+    
+}
+
+input[type="submit"], .form-btn{
+    background-color: var(--secondary);
+    border: none;
+    font-size: 1rem;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+input[type="submit"]:hover, .form-btn:hover{
+    background-color: var(--accent);
+}
+
+input, select, .form-btn, button{
+    margin: 2px 0px;
+    color: white;
+}
+
+.form-btn{
+    width: 100%;
+}
+
+button{
+    background-color: var(--secondary);
+    border: none;
+    font-size: 1rem;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+button:hover{
+    background-color: var(--accent);
+}
+
+#acc-set h1{
+    margin-bottom: 0px;
+    font-size: 2rem;
+}
+
+#acc-set form{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+}
+
+#body{
+    height: 400px;
+    padding: 10px;
+    z-index: 1;
+}
+
+#console{
+    font-size: 1rem;
+    height: 100%;
+    border: 2px solid var(--secondary);
+    overflow: auto;
+    background-color: #1c1c1c;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+#lower{
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+#lower div{
+    text-align: center;
+}
+
+
+.full-screen{
+    padding: 0px!important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: calc(100% - 2px)!important;
+    height: calc(100% - 40px)!important;
+}
+
+#min{
+    height: 10px;  
+    width: 10px;
+    background-color: var(--accent);
+    display: inline-block;
+    border-radius: 100%;
+    cursor: pointer;
+}
+
+#dm-message-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.dm-message{
+    background-color: var(--main);
+    border: 2px solid var(--secondary);
+    height: 100px;
+    margin-top: 30px;
+    margin-bottom: 5px;
+    color: white;
+    padding: 10px;
+    font-size: 1rem;
+    resize: none;
+    width: 20px;
+}
+
+.dm-message-active{
+    width: 100% !important;
+    background-color: #292929;
+}
+
+textarea:focus-visible{
+    outline: none;
+    box-shadow: inset 0px -2px var(--accent);
+}
+
+button:disabled, textarea:disabled {
+    color: var(--disabled);
+}
+
+button:disabled:hover, textarea:disabled:hover {
+    cursor: not-allowed;
+    background-color: var(--secondary);
+}
+
+.failed{
+    color: #dc3545;
+}
+
+.info{
+    color: yellow;
+}
+
+.success{
+    color: #198754;
+}
+
+.serious{
+    background-color: #dc3545;
+    color: white;
+}

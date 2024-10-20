@@ -1,0 +1,22 @@
+{
+  "accounts": [],
+  "passwords": [],
+  "exhausted": [],
+  "limit": null,
+  "next": 0,
+  "username": "",
+  "browser": false,
+  "running": false,
+  "message": [
+    "",
+    "",
+    "",
+    "",
+    ""
+  ],
+  "targetFriendship": "followers",
+  "targetUsername": "",
+  "cookiesLogin": [],
+  "delay": 5,
+  "pvt": false
+}
