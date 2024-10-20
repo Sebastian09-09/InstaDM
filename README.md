@@ -1,5 +1,7 @@
 # InstaDM
 
+<img alt='demo' src='https://raw.githubusercontent.com/Sebastian09-09/InstaDM/refs/heads/main/demo.gif' width = '800px'>
+
 An instagram bot to send cold dms to your target users followers or following list 📨
 - helps you reach new target audience 👥
 - convert more leads 🔁
