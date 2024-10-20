@@ -30,3 +30,7 @@ An instagram bot to send cold dms to your target users followers or following li
 - in case your accounts are exhausted , click on clear exhausted button
 - accounts are marked as exhausted if they fail to dm 5 times consecutively 
 - you can clear cookies to do new fresh logins 
+- you can use {fullname} to type fullname of the account to be DM'd
+- you can use {username} to type username of the account to be DM'd
+- you can use {followers} to type the follower count of the account to be DM'd
+- you can use {following} to type the following count of the account to be DM'd

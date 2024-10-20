@@ -287,7 +287,7 @@ async function loginInstagramFunc(autoStart = false){
             */
 
             browser = await puppeteer.launch({
-                headless: false,
+                headless: true,
                 //args: [`--proxy-server=${newProxyUrl}`]
             });
 
@@ -564,8 +564,22 @@ async function getMessage(){
 
 async function testInstagramFunc(){
     config = await loadConfig();
+
+    let tempMsg = '';
+
+    for (const msg of config.message){
+        if (msg != ""){
+            tempMsg = msg
+        }
+    }
+
+    if (tempMsg == ""){
+        sendDataToAllClients('log | Add atleast one dm 📨 | info');
+        return;
+    }
+
     if (config.running){
-        sendDataToAllClients('log | running already 🤧 | info');
+        sendDataToAllClients('log | Running already 🤧 | info');
         return;
     }
 
@@ -716,13 +730,26 @@ app.post('/testInstagram', (req,res) => {
 async function startInstagramFunc(){
     config = await loadConfig();
     sendDataToAllClients(`count | ${reachedlimit} `);
+    let tempMsg = '';
+
+    for (const msg of config.message){
+        if (msg != ""){
+            tempMsg = msg
+        }
+    }
+
+    if (tempMsg == ""){
+        sendDataToAllClients('log | Add atleast one dm 📨 | info');
+        return;
+    }
+
     if (config.running){
-        sendDataToAllClients('log | running already 🤧 | info');
+        sendDataToAllClients('log | Running already 🤧 | info');
         return;
     }
 
     if (config.targetUsername == ''){
-        sendDataToAllClients('log | no target selected ⚔️ | info');
+        sendDataToAllClients('log | No target selected ⚔️ | info');
         return;
     }
 

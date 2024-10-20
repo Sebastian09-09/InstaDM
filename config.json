@@ -2,21 +2,21 @@
   "accounts": [],
   "passwords": [],
   "exhausted": [],
-  "limit": null,
+  "limit": 10,
   "next": 0,
   "username": "",
   "browser": false,
   "running": false,
   "message": [
-    "",
-    "",
-    "",
-    "",
+    "Hey! {fullname}",
+    "Hi! {username}",
+    "You have {followers} followers!",
+    "You are following {following} accounts!",
     ""
   ],
   "targetFriendship": "followers",
   "targetUsername": "",
   "cookiesLogin": [],
   "delay": 5,
-  "pvt": false
+  "pvt": true
 }
